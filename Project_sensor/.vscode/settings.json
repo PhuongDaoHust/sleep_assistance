@@ -1,0 +1,9 @@
+{
+    "idf.adapterTargetName": "esp32",
+    "files.associations": {
+        "adxl345.h": "c",
+        "http_main.h": "c",
+        "cmath": "c",
+        "math.h": "c"
+    }
+}

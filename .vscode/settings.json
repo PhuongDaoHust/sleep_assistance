@@ -1,0 +1,31 @@
+{
+    "files.associations": {
+        "gpio.h": "c",
+        "u_gpio.h": "c",
+        "max30100_pulseoximeter.h": "c",
+        "i2c.h": "c",
+        "user_i2c.h": "c",
+        "array": "cpp",
+        "chrono": "cpp",
+        "deque": "cpp",
+        "format": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "esp_log.h": "c",
+        "xmemory": "cpp",
+        "ostream": "cpp",
+        "*.ipp": "cpp",
+        "i2cwire.h": "c",
+        "adxl345.h": "c",
+        "i2cmain.h": "c",
+        "freertos.h": "c",
+        "http_main.h": "c",
+        "esp_wifi.h": "c"
+    }
+}
