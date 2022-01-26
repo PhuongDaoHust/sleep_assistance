@@ -20,7 +20,7 @@ uint8_t readFrom(uint8_t DEVICE, uint8_t address, uint8_t num, uint8_t byte){
 }
 
 void initAcc(void){
-    I2C_master_init();
+    // I2C_master_init();
     writeTo(DEVICE_ADDRESS,POWER_CTL,1 << 3); 
     writeTo(DEVICE_ADDRESS,DATA_FORMAT,0x0B); // the device is in full resolution mode and  maintain a 4 mg/LSB scale factor. Range : 16g
     writeTo(DEVICE_ADDRESS,BW_RATE,0x09); //DATA RATE=1001 (no low power mode)

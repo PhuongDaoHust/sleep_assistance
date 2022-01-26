@@ -21,7 +21,6 @@ void MAX30100_update()
     if(MAX30100_getRawValues(&ir, &red)){
             float irACValue = DC_Remover(ir);
             float filtered_IRvalue = FilterBuLp1(-irACValue);
-            printf("%f",filtered_IRvalue);
             MAX30100_checkForBeat(filtered_IRvalue);
     }
     
@@ -82,9 +81,8 @@ bool MAX30100_checkForBeat(float sample)
                     beat.beatPeriod = BEATDETECTOR_BPFILTER_ALPHA * delta +
                             (1 - BEATDETECTOR_BPFILTER_ALPHA) * beat.beatPeriod;
                 }
-                printf("BEAT BEAT BEAT\t");
-                // printf("HRV1:%f\n", MAX30100_getRate());
-                printf("HRV2:%f\n", MAX30100_getRate());
+                // printf("BEAT BEAT BEAT\t");
+                // printf("HRV2:%f\n", MAX30100_getRate());
                 beat.tsLastBeat = MAX30100_millis();
             } else {
                 beatState = BEATDETECTOR_STATE_FOLLOWING_SLOPE;

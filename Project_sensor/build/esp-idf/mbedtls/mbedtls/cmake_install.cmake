@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Admin/esp/esp-idf/components/mbedtls/mbedtls
+# Install script for directory: F:/esp/esp-idf/components/mbedtls/mbedtls
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,8 +34,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("E:/ESP32/RF3i/Project_sensor/build/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
-  include("E:/ESP32/RF3i/Project_sensor/build/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
+  include("F:/sleep_assistance/Project_sensor/build/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
+  include("F:/sleep_assistance/Project_sensor/build/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
 
 endif()
 

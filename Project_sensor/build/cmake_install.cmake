@@ -1,4 +1,4 @@
-# Install script for directory: E:/ESP32/RF3i/Project_sensor
+# Install script for directory: F:/sleep_assistance/Project_sensor
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("E:/ESP32/RF3i/Project_sensor/build/esp-idf/cmake_install.cmake")
+  include("F:/sleep_assistance/Project_sensor/build/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/ESP32/RF3i/Project_sensor/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "F:/sleep_assistance/Project_sensor/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

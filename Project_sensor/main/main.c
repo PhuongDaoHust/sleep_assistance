@@ -16,102 +16,95 @@
 #include "math.h"
 
 #define portTICK_RATE_MS_MODIFY (uint32_t)10
+#define MOVE_INTENSITY_LEVEL	30
+#define HTTP_TIMER				10
+#define MAX30100_TIMER			1
+#define ADXL345_TIMER			1
 
 static const char *TAG1 = "adxl345";
 static const char *TAG2 = "max30100";
-//static const char *TAG3 = "HTTP";
-uint8_t byte1;
-unsigned int num_of_mov=0;
-int acc[3],old_acc[3];
-float acc_k[3];
-double xyz[3],intensity;
-int i=0;
+static const char *TAG3 = "http";
 
-SemaphoreHandle_t xSemaphore;
+int acc[3];
+int8_t ACC_old[3], ACC_new[3];
+volatile float ACC_intensity_mean=0;
+volatile int ACC_count=0;
+volatile int HR_count=0;
+volatile float HR_mean=0;
 
 static void ADXL345Task(void *pvParameters) {
-	ESP_LOGI(TAG1,"adx345 task started\n");
-	initAcc();
-	ESP_LOGI(TAG1,"accelerometer started");
 	while (1) {
-	//xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	I2C_readRegister(DEVICE_ADDRESS,0x00,&byte1,1);
-	printf("DEVICE: %d",byte1);
-	for(uint8_t indx = 0;indx <3 ; indx++){
-        old_acc[indx] = acc[indx];
+		getAccelerometerData(acc);
+		for(uint8_t indx = 0;indx <3 ; indx++){
+			ACC_old[indx] = ACC_new[indx];
+			ACC_new[indx] = (int8_t) acc[indx];
+		}
+		//getacc(xyz);
+		int ACC_intensity = abs(ACC_new[0]-ACC_old[0]) + abs(ACC_new[1]-ACC_old[1]) +  abs(ACC_new[2]-ACC_old[2]);
+		if(ACC_intensity > MOVE_INTENSITY_LEVEL) {
+			ACC_intensity_mean = (ACC_intensity_mean*ACC_count+ACC_intensity)/(ACC_count+1);
+			ACC_count = ACC_count+1;
+		}
+		ESP_LOGI(TAG1,"Old: X=%d,Y=%d,Z=%d",ACC_old[0],ACC_old[1],ACC_old[2]);
+		ESP_LOGI(TAG1,"New: X=%d,Y=%d,Z=%d",ACC_new[0],ACC_new[1],ACC_new[2]);
+		ESP_LOGI(TAG1,"so lan chuyen dong: %d",ACC_count);
+		ESP_LOGI(TAG1,"Intensity: %d \t Intensity mean: %f",ACC_intensity,ACC_intensity_mean);
+		vTaskDelay(1000*ADXL345_TIMER / portTICK_RATE_MS);
 	}
-	getAccelerometerData(acc);
-	// acc_k[0]= updateEstimate(1.0*acc[1]);
-    // acc_k[1]= updateEstimate(1.0*acc[2]);
-    // acc_k[2]= updateEstimate(1.0*acc[3]);
-		ESP_LOGI(TAG1,"X=%d,Y=%d,Z=%d\n",(int8_t)old_acc[0],(int8_t)old_acc[1],(int8_t)old_acc[2]);
-		getacc(xyz);
-		//number_of_movement(num_of_mov,acc,old_acc);
-		for(uint8_t j=0;j<3;j++){
-        if(abs(acc[j]-old_acc[j])>20){
-             num_of_mov++;
-            break;
-        }	
-    }	
-		intensity = sqrt(pow(abs(acc[1]-old_acc[1]),2) + pow(abs(acc[2]-old_acc[2]),2) +  pow(abs(acc[3]-old_acc[3]),2));
-	
-		ESP_LOGI(TAG1,"X=%d,Y=%d,Z=%d\n",(int8_t)acc[0],(int8_t)acc[1],(int8_t)acc[2]);
-		//ESP_LOGI(TAG1,"X=%f,Y=%f,Z=%f\n",xyz[0],xy[1],acc[2]);
-		ESP_LOGI(TAG1,"x =%.3lf g,Y=%.3lf g,Z=%.3lf g",xyz[1],xyz[2],xyz[3]);
-
-		ESP_LOGI(TAG1,"\n so lan chuyen dong: %d",num_of_mov);
-		ESP_LOGI(TAG1,"\n Cuong do chuyen dong: %.3f",intensity);
-		vTaskDelay(1000 / portTICK_RATE_MS);
-		//xSemaphoreGive(xSemaphore);
-	}
-	
 	vTaskDelete(NULL);
 }
 
-static void MAX30100Task(void *pvParmameters){
-ESP_LOGI(TAG2,"max30100 task started\n");
-I2C_master_init();
-ESP_LOGI(TAG2,"heart beat started");
-while(1){
-	//xSemaphoreTake(xSemaphore,portMAX_DELAY);
-	printf("\n Heart beat wasn't updated\n");
-	MAX30100_update();
-
-	vTaskDelay(1000/portTICK_RATE_MS);
-	//xSemaphoreGive(xSemaphore);
+static void MAX30100_ReadReg_Task(void *pvParmameters){
+	while(1)
+	{
+		MAX30100_update();
+	}
+	vTaskDelete(NULL);
 }
-vTaskDelete(NULL);
+static void MAX30100_CalHR_Task(void *pvParmameters){
+	while(1)
+	{
+		float HR = MAX30100_getRate();
+		vTaskDelay(1000*MAX30100_TIMER / portTICK_RATE_MS);
+	
+		HR_mean = (HR_mean*HR_count + HR)/(HR_count+1);
+		HR_count=HR_count+1;
+		ESP_LOGI(TAG2," Nhip tim TB: %f \t Nhip tim tuc thoi: %f",HR_mean,HR);
+	}
+	vTaskDelete(NULL);
+}
+static void HTTPTask(void *pvParmameters){
+	while(1){
+		HTTP_send_data(ACC_count, ACC_intensity_mean, HR_mean);
+		ESP_LOGI(TAG2,"\n........HTTP SEND SUCCESSFULY...........\n");
+		ACC_count=0;
+		ACC_intensity_mean=0;
+		HR_mean=0;
+		HR_count =0;
+		vTaskDelay(1000*HTTP_TIMER / portTICK_RATE_MS);
+	}
+	vTaskDelete(NULL);
 }
 
-//static void 
 
 void app_main() {
 	ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-    //ESP_ERROR_CHECK(example_connect()); // Connect wifi
+    ESP_ERROR_CHECK(example_connect()); // Connect wifi
 	ESP_LOGI("system","system inited");
+	
+	
+	I2C_master_init();
+	while(!MAX30100_begin());
+    MAX30100_init();
+	initAcc();
 
-	//xSemaphore = xSemaphoreCreateMutex();
-	
-	
-	
-	xTaskCreate(&ADXL345Task,	//pvTaskCode
-			"Adxl345Task",//pcName
-			4096,//usStackDepth
-			NULL,//pvParameters
-			4,//uxPriority
-			NULL//pxCreatedTask
-			);
 
-	xTaskCreate(&MAX30100Task,
-			"Max30100Task",
-			4096,
-			NULL,
-			4,
-			NULL);
+	xTaskCreate(&ADXL345Task,"Adxl345Task",4096,NULL,4,NULL);
+	xTaskCreate(&MAX30100_ReadReg_Task,"MAX30100_ReadReg_Task",4096,NULL,3,NULL);
+	xTaskCreate(&MAX30100_CalHR_Task,"MAX30100_CalHR_Task",4096,NULL,5,NULL);
+	xTaskCreate(&HTTPTask,"HTTPTask",4096,NULL,5,NULL);
 }
-
-//HTTP_send_data(1, 2, 3); //example send data
 
 
