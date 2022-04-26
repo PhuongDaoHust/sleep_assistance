@@ -5,6 +5,7 @@ set(COMPONENT_SRCS          "./MAX30100/MAX30100.c"
                             "./ADXL345/ADXL345.c"
                             "./User_HTTP/HTTP_main.c"
                             "./ADXL345/SimpleKalmanFilter.c"
+                            "./User_BLE/ble_prov.c"
 )
 
 set(COMPONENT_INCLUDEDIRS   
@@ -16,7 +17,7 @@ set(COMPONENT_INCLUDEDIRS
                             "./ADXL345"
 )
 
-set(COMPONENT_REQUIRES      "driver" "esp_timer" "lwip" "freertos" "nvs_flash")
+set(COMPONENT_REQUIRES      "driver" "esp_timer" "lwip" "freertos" "nvs_flash" "bt")
 
 
 idf_component_register(     SRCS                "${COMPONENT_SRCS}"

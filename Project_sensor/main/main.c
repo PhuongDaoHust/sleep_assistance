@@ -14,6 +14,7 @@
 #include "sdkconfig.h"
 #include "protocol_examples_common.h"
 #include "math.h"
+#include "ble_prov.h"
 
 #define portTICK_RATE_MS_MODIFY (uint32_t)10
 #define MOVE_INTENSITY_LEVEL	30
@@ -76,7 +77,7 @@ static void MAX30100_CalHR_Task(void *pvParmameters){
 static void HTTPTask(void *pvParmameters){
 	while(1){
 		HTTP_send_data(ACC_count, ACC_intensity_mean, HR_mean);
-		ESP_LOGI(TAG2,"\n........HTTP SEND SUCCESSFULY...........\n");
+		ESP_LOGI(TAG3,"\n........HTTP SEND SUCCESSFULY...........\n");
 		ACC_count=0;
 		ACC_intensity_mean=0;
 		HR_mean=0;
@@ -84,6 +85,13 @@ static void HTTPTask(void *pvParmameters){
 		vTaskDelay(1000*HTTP_TIMER / portTICK_RATE_MS);
 	}
 	vTaskDelete(NULL);
+}
+
+static void BLETask(void *pvParmameters){
+	
+	while(1){
+	    ble_start();
+	}
 }
 
 
@@ -100,11 +108,11 @@ void app_main() {
     MAX30100_init();
 	initAcc();
 
-
 	xTaskCreate(&ADXL345Task,"Adxl345Task",4096,NULL,4,NULL);
 	xTaskCreate(&MAX30100_ReadReg_Task,"MAX30100_ReadReg_Task",4096,NULL,3,NULL);
 	xTaskCreate(&MAX30100_CalHR_Task,"MAX30100_CalHR_Task",4096,NULL,5,NULL);
 	xTaskCreate(&HTTPTask,"HTTPTask",4096,NULL,5,NULL);
+	xTaskCreate(&BLETask,"BLETask",4096,NULL,5,NULL);
 }
 
 

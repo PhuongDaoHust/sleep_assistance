@@ -1,4 +1,4 @@
-# Install script for directory: F:/sleep_assistance/Project_sensor/main
+# Install script for directory: E:/ESP32/sleep_assistance/Project_sensor/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
