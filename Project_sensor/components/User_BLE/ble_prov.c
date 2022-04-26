@@ -22,6 +22,11 @@
 #define PROFILE_A_APP_ID 0
 #define INVALID_HANDLE   0
 
+extern volatile float ACC_intensity_mean;
+extern volatile int ACC_count;
+extern volatile int HR_count;
+extern volatile float HR_mean;
+
 static const char remote_device_name[] = "ESP_GATTS_DEMO";
 static bool connect    = false;
 static bool get_server = false;
@@ -260,16 +265,18 @@ static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_
             break;
         }
         ESP_LOGI(GATTC_TAG, "write descr success ");
-        uint8_t write_char_data[35];
-        for (int i = 0; i < sizeof(write_char_data); ++i)
-        {
-            write_char_data[i] = i % 256;
-        }
+        // uint8_t write_char_data[35];
+        // for (int i = 0; i < sizeof(write_char_data); ++i)
+        // {
+        //     write_char_data[i] = i % 256;
+        // }
+        char write_char_data[20] ={0};
+        sprintf(write_char_data,"%f-%d-%f",HR_mean,ACC_count,ACC_intensity_mean);
         esp_ble_gattc_write_char( gattc_if,
                                   gl_profile_tab[PROFILE_A_APP_ID].conn_id,
                                   gl_profile_tab[PROFILE_A_APP_ID].char_handle,
                                   sizeof(write_char_data),
-                                  write_char_data,
+                                  (uint8_t *)write_char_data,
                                   ESP_GATT_WRITE_TYPE_RSP,
                                   ESP_GATT_AUTH_REQ_NONE);
         break;
