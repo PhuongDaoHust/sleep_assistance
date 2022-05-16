@@ -5,7 +5,9 @@
         "http_main.h": "c",
         "cmath": "c",
         "math.h": "c",
-        "max30100_main.h": "c"
+        "max30100_main.h": "c",
+        "stdbool.h": "c"
     },
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "idf.portWin": "COM6"
 }

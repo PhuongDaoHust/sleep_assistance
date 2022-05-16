@@ -90,10 +90,10 @@ static void HTTPTask(void *pvParmameters){
 static void BLETask(void *pvParmameters){
 	
 	while(1){
-	    ble_start();
+	   
 	}
+	vTaskDelete(NULL);
 }
-
 
 void app_main() {
 	ESP_ERROR_CHECK(nvs_flash_init());
@@ -102,9 +102,9 @@ void app_main() {
     // ESP_ERROR_CHECK(example_connect()); // Connect wifi
 	ESP_LOGI("system","system inited");
 	
-	
+	ble_start();
 	I2C_master_init();
-	while(!MAX30100_begin());
+	// while(!MAX30100_begin());
     MAX30100_init();
 	initAcc();
 	

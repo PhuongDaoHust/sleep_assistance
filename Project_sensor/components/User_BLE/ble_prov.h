@@ -2,7 +2,13 @@
 #define __BLE_PROV_H__
 #include "esp_log.h"
 #include <stdbool.h>
+#include "esp_event_base.h"
+#include "freertos/event_groups.h"
 
+
+#define BLE_SENT_DATA BIT0
+
+EventGroupHandle_t ble_event_group;
 
 
 uint8_t device_mac_addr[6];
