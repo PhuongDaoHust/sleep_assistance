@@ -5,27 +5,10 @@
 #include <stdio.h>
 #include "nvs.h"
 #include "nvs_flash.h"
-#include "esp_bt.h"
-#include "esp_gap_ble_api.h"
-#include "esp_gattc_api.h"
-#include "esp_gatt_defs.h"
-#include "esp_bt_main.h"
-#include "esp_gatt_common_api.h"
-#include "esp_log.h"
-#include "freertos/FreeRTOS.h"
 #include "ble_prov.h"
 
-#define GATTC_TAG "WATCH"
-#define REMOTE_SERVICE_UUID 0x00FF
-#define REMOTE_NOTIFY_CHAR_UUID 0xFF01
-#define PROFILE_NUM 1
-#define PROFILE_A_APP_ID 0
-#define INVALID_HANDLE 0
 
-extern volatile float ACC_intensity_mean;
-extern volatile int ACC_count;
-extern volatile int HR_count;
-extern volatile float HR_mean;
+
 
 static const char remote_device_name[] = "ESP_GATTS_DEMO";
 static bool connect = false;
@@ -90,7 +73,6 @@ static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
 static void gattc_profile_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gattc_cb_param_t *param)
 {
     esp_ble_gattc_cb_param_t *p_data = (esp_ble_gattc_cb_param_t *)param;
-    EventBits_t uxBits;
     switch (event)
     {
     case ESP_GATTC_REG_EVT:
