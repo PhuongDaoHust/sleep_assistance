@@ -6,7 +6,6 @@ set(COMPONENT_SRCS          "./MAX30100/MAX30100.c"
                             "./User_HTTP/HTTP_main.c"
                             "./ADXL345/SimpleKalmanFilter.c"
                             "./User_BLE/ble_prov.c"
-                            "./User_BLE/esp_timer.c"
 )
 
 set(COMPONENT_INCLUDEDIRS   

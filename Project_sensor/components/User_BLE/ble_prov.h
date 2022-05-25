@@ -2,8 +2,6 @@
 #define __BLE_PROV_H__
 #include "esp_log.h"
 #include <stdbool.h>
-#include "esp_event_base.h"
-#include "freertos/event_groups.h"
 #include "esp_bt.h"
 #include "esp_gap_ble_api.h"
 #include "esp_gattc_api.h"
@@ -20,8 +18,7 @@
 #define PROFILE_A_APP_ID 0
 #define INVALID_HANDLE 0
 
-EventGroupHandle_t ble_event_group;
-
+// EventGroupHandle_t ble_event_group;
 
 extern volatile float ACC_intensity_mean;
 extern volatile int ACC_count;
@@ -35,6 +32,7 @@ void ble_start();
 void ble_stop_adv();
 // void bonded_device_start();
 // void __attribute__((unused)) remove_all_bonded_devices(void);
+void configure_task_periodic(void);
 
 
 #endif

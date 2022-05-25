@@ -101,12 +101,12 @@ void app_main() {
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     // ESP_ERROR_CHECK(example_connect()); // Connect wifi
 	ESP_LOGI("system","system inited");
-	
-	ble_start();
+	configure_task_periodic();
 	I2C_master_init();
 	// while(!MAX30100_begin());
     MAX30100_init();
 	initAcc();
+	ble_start();
 	
 	xTaskCreate(&ADXL345Task,"Adxl345Task",4096,NULL,4,NULL);
 	xTaskCreate(&MAX30100_ReadReg_Task,"MAX30100_ReadReg_Task",4096,NULL,3,NULL);

@@ -6,7 +6,8 @@
         "cmath": "c",
         "math.h": "c",
         "max30100_main.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "esp_timer.h": "c"
     },
     "idf.flashType": "UART",
     "idf.portWin": "COM6"

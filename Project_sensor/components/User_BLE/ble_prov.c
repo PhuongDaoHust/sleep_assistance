@@ -5,6 +5,18 @@
 #include <stdio.h>
 #include "nvs.h"
 #include "nvs_flash.h"
+
+// #include "esp_event_base.h"
+// #include "freertos/event_groups.h"
+#include "esp_bt.h"
+#include "esp_gap_ble_api.h"
+#include "esp_gattc_api.h"
+#include "esp_gatt_defs.h"
+#include "esp_bt_main.h"
+#include "esp_gatt_common_api.h"
+#include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+
 #include "ble_prov.h"
 
 
@@ -532,16 +544,47 @@ void ble_start()
     }
 }
 
-// void get_device_service_name(char *service_name, size_t max)
-// {
-//     memset(device_mac_addr, '\0', 6);
-//     const char *ssid_prefix = ":Watch_";
-//     ESP_ERROR_CHECK(esp_read_mac(device_mac_addr, ESP_MAC_BT));
-//     ESP_LOGI("BLE MAC", "0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x", device_mac_addr[0], device_mac_addr[1], device_mac_addr[2], device_mac_addr[3], device_mac_addr[4], device_mac_addr[5]);
-//     snprintf(service_name, max, "%s%02X%02X%02X%02X%02X%02X", ssid_prefix, device_mac_addr[0], device_mac_addr[1], device_mac_addr[2], device_mac_addr[3], device_mac_addr[4], device_mac_addr[5]);
-// }
+static void periodic_timer_callback(void* arg)
+{
+    int64_t time_since_boot = esp_timer_get_time();
+    // ESP_LOGI(TAG, "Periodic timer called, time since boot: %lld us", time_since_boot);
+    printf("Pham Thi Yen Linhh \n");
+//     esp_ble_gattc_cb_param_t *p_data = (esp_ble_gattc_cb_param_t *)param;
+//     static struct gattc_profile_inst gl_profile_tab[PROFILE_NUM] = {
+//     [PROFILE_A_APP_ID] = {
+//         .gattc_cb = gattc_profile_event_handler,
+//         .gattc_if = ESP_GATT_IF_NONE, /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
+//     },
+// };
+    // if (p_data->write.status != ESP_GATT_OK)
+    //     {
+    //         ESP_LOGE(GATTC_TAG, "write descr failed, error status = %x", p_data->write.status);
+    //         break;
+    //     }
+        
+        char write_char_data[20] = {0};
+        sprintf(write_char_data, "%f-%d-%f", HR_mean, ACC_count, ACC_intensity_mean);
+        // char write_char_data[15] ="Phuong";
+         esp_ble_gattc_write_char(gl_profile_tab[PROFILE_A_APP_ID].gattc_if,
+                                 gl_profile_tab[PROFILE_A_APP_ID].conn_id,
+                                 gl_profile_tab[PROFILE_A_APP_ID].char_handle,
+                                 sizeof(write_char_data),
+                                 (uint8_t *)write_char_data,
+                                 ESP_GATT_WRITE_TYPE_RSP,
+                                 ESP_GATT_AUTH_REQ_NONE);
+        ESP_LOGI(GATTC_TAG, "send data success");
 
-// void ble_stop_adv()
-// {
-//     esp_ble_gap_stop_advertising();
-// }
+}
+
+void configure_task_periodic(void){
+    const esp_timer_create_args_t periodic_timer_args = {
+            .callback = &periodic_timer_callback,
+            /* name is optional, but may help identify the timer when debugging */
+            .name = "periodic"
+    };
+    esp_timer_handle_t periodic_timer;
+    ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
+
+    ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 1000000));
+}
+
