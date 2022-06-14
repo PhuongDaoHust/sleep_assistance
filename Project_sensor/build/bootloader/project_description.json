@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "C:/Users/Admin/esp/esp-idf/components/bootloader/subproject",
-    "build_dir":          "D:/sleep_assistance/Project_sensor/build/bootloader",
-    "config_file":        "D:/sleep_assistance/Project_sensor/sdkconfig",
+    "build_dir":          "E:/sleep_assistance/Project_sensor/build/bootloader",
+    "config_file":        "E:/sleep_assistance/Project_sensor/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",

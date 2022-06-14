@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader"
+			"file" : "E:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader-complete.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/CMakeFiles/bootloader-complete.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
 		},
 		{
-			"file" : "D:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+			"file" : "E:/sleep_assistance/Project_sensor/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
 		}
 	],
 	"target" : 

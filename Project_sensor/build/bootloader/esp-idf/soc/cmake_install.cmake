@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/sleep_assistance/Project_sensor/build/bootloader/esp-idf/soc/esp32/cmake_install.cmake")
+  include("E:/sleep_assistance/Project_sensor/build/bootloader/esp-idf/soc/esp32/cmake_install.cmake")
 
 endif()
 

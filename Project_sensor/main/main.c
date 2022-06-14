@@ -87,13 +87,6 @@ static void HTTPTask(void *pvParmameters){
 	vTaskDelete(NULL);
 }
 
-static void BLETask(void *pvParmameters){
-	
-	while(1){
-	   
-	}
-	vTaskDelete(NULL);
-}
 
 void app_main() {
 	ESP_ERROR_CHECK(nvs_flash_init());
@@ -101,7 +94,7 @@ void app_main() {
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     // ESP_ERROR_CHECK(example_connect()); // Connect wifi
 	ESP_LOGI("system","system inited");
-	configure_task_periodic();
+	// configure_task_periodic();
 	I2C_master_init();
 	// while(!MAX30100_begin());
     MAX30100_init();
@@ -112,7 +105,6 @@ void app_main() {
 	xTaskCreate(&MAX30100_ReadReg_Task,"MAX30100_ReadReg_Task",4096,NULL,3,NULL);
 	xTaskCreate(&MAX30100_CalHR_Task,"MAX30100_CalHR_Task",4096,NULL,5,NULL);
 	xTaskCreate(&HTTPTask,"HTTPTask",4096,NULL,5,NULL);
-	xTaskCreate(&BLETask,"BLETask",4096,NULL,5,NULL);
 }
 
 

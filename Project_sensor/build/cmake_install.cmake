@@ -1,4 +1,4 @@
-# Install script for directory: D:/sleep_assistance/Project_sensor
+# Install script for directory: E:/sleep_assistance/Project_sensor
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/sleep_assistance/Project_sensor/build/esp-idf/cmake_install.cmake")
+  include("E:/sleep_assistance/Project_sensor/build/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/sleep_assistance/Project_sensor/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/sleep_assistance/Project_sensor/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
