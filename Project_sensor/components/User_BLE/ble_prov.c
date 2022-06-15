@@ -31,7 +31,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 #define SCAN_RSP_CONFIG_FLAG (1 << 1)
 
 bool configFlag = false;
-char *finger_print = "431798978b2b183a5c94e7b94115e1ccf0a5baa8";
+char finger_print[20];
 static uint8_t char1_str[] = {0x11, 0x22, 0x33};
 static esp_gatt_char_prop_t a_property = 0;
 static uint16_t gatts_mtu = 23;
@@ -47,46 +47,21 @@ static uint8_t adv_config_done = 0;
 
 #ifdef CONFIG_SET_RAW_ADV_DATA
 static uint8_t raw_adv_data[] = {
-    0x02, 0x01, 0x06,
-    0x02, 0x0a, 0xeb, 0x03, 0x03, 0xab, 0xcd};
+        0x02, 0x01, 0x06,
+        0x02, 0x0a, 0xeb, 0x03, 0x03, 0xab, 0xcd
+};
 static uint8_t raw_scan_rsp_data[] = {
-    0x0f, 0x09, 0x45, 0x53, 0x50, 0x5f, 0x47, 0x41, 0x54, 0x54, 0x53, 0x5f, 0x44,
-    0x45, 0x4d, 0x4f};
+        0x0f, 0x09, 0x45, 0x53, 0x50, 0x5f, 0x47, 0x41, 0x54, 0x54, 0x53, 0x5f, 0x44,
+        0x45, 0x4d, 0x4f
+};
 #else
+
 static uint8_t adv_service_uuid128[32] = {
     /* LSB <--------------------------------------------------------------------------------> MSB */
-    0xfb,
-    0x34,
-    0x9b,
-    0x5f,
-    0x80,
-    0x00,
-    0x00,
-    0x80,
-    0x00,
-    0x10,
-    0x00,
-    0x00,
-    0xEE,
-    0x00,
-    0x00,
-    0x00,
-    0xfb,
-    0x34,
-    0x9b,
-    0x5f,
-    0x80,
-    0x00,
-    0x00,
-    0x80,
-    0x00,
-    0x10,
-    0x00,
-    0x00,
-    0xFF,
-    0x00,
-    0x00,
-    0x00,
+    //first uuid, 16bit, [12],[13] is the value
+    0xfb, 0x34, 0x9b, 0x5f, 0x80, 0x00, 0x00, 0x80, 0x00, 0x10, 0x00, 0x00, 0xEE, 0x00, 0x00, 0x00,
+    //second uuid, 32bit, [12], [13], [14], [15] is the value
+    0xfb, 0x34, 0x9b, 0x5f, 0x80, 0x00, 0x00, 0x80, 0x00, 0x10, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,
 };
 
 static esp_ble_adv_data_t adv_data = {
@@ -472,7 +447,8 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
             esp_gatt_rsp_t rsp;
             memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
             rsp.attr_value.handle = param->read.handle;
-            finger_print = "Pham Thi Yen Linh";
+            strcpy(finger_print ,"Pham Thi Yen Linh");
+            // sprintf(finger_print, "%f-%d-%f", HR_mean, ACC_count, ACC_intensity_mean);
             rsp.attr_value.len = strlen(finger_print);
             memcpy(rsp.attr_value.value, finger_print, rsp.attr_value.len);
             gatts_proc_read(gatts_if, &prepare_read_env, param, rsp.attr_value.value, rsp.attr_value.len);
